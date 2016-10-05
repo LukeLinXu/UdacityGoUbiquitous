@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
      Copyright (C) 2015 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +15,7 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.sunshine.app">
+    package="com.example.android.sunshine.app" >
 
     <!-- This permission is necessary in order for Sunshine to perform network access. -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -28,7 +29,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Permissions required for Google Cloud Messaging -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <permission
@@ -37,16 +37,20 @@
 
     <uses-permission android:name="com.example.android.sunshine.app.permission.C2D_MESSAGE" />
 
+    <!-- wathface permissions -->
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.Main">
+            android:theme="@style/AppTheme.Main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,7 +61,7 @@
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.Details">
+            android:theme="@style/AppTheme.Details" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.sunshine.app.MainActivity" />
@@ -66,7 +70,7 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/SettingsTheme">
+            android:theme="@style/SettingsTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.sunshine.app.MainActivity" />
@@ -79,7 +83,7 @@
             android:syncable="true" />
 
         <!-- SyncAdapter's dummy authentication service -->
-        <service android:name=".sync.SunshineAuthenticatorService">
+        <service android:name=".sync.SunshineAuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -92,7 +96,7 @@
         <!-- The SyncAdapter service -->
         <service
             android:name=".sync.SunshineSyncService"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -102,7 +106,7 @@
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <!-- The Google Cloud Messaging receiver and services -->
+        <!-- GCM receiver -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -114,12 +118,13 @@
                 <category android:name="com.example.android.sunshine.app" />
             </intent-filter>
         </receiver>
+
         <!-- Muzei Extension -->
         <service
             android:name=".muzei.WeatherMuzeiSource"
             android:description="@string/muzei_description"
             android:icon="@drawable/ic_muzei"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.google.android.apps.muzei.api.MuzeiArtSource" />
             </intent-filter>
@@ -128,10 +133,11 @@
                 android:name="color"
                 android:value="@color/primary" />
         </service>
+
         <!-- Today Widget -->
         <receiver
             android:name=".widget.TodayWidgetProvider"
-            android:label="@string/title_widget_today">
+            android:label="@string/title_widget_today" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.android.sunshine.app.ACTION_DATA_UPDATED" />
@@ -143,11 +149,12 @@
         </receiver>
 
         <service android:name=".widget.TodayWidgetIntentService" />
+
         <!-- Detail Widget -->
         <receiver
             android:name=".widget.DetailWidgetProvider"
             android:enabled="@bool/widget_detail_enabled"
-            android:label="@string/title_widget_detail">
+            android:label="@string/title_widget_detail" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.android.sunshine.app.ACTION_DATA_UPDATED" />
@@ -180,6 +187,12 @@
         <service
             android:name=".gcm.RegistrationIntentService"
             android:exported="false"></service>
+        <service
+            android:name=".WearWeatherService">
+            <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+            <data android:scheme="wear" android:host="*"
+                android:path="/weather" />
+        </service>
     </application>
 
 </manifest>
