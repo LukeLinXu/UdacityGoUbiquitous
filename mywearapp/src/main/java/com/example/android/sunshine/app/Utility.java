@@ -1,4 +1,4 @@
-package com.example.llin.mywearapp;
+package com.example.android.sunshine.app;
 
 /**
  * Created by llin on 2016-10-03.
